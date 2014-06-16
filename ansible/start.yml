@@ -1,0 +1,6 @@
+---
+- hosts: api
+  sudo: yes
+  tasks:
+    - action: service name=rethinkdb enabled=yes state=started
+#    - action: service name=docker state=started
