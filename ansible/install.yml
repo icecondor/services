@@ -1,5 +1,5 @@
 ---
-- hosts: api
+- hosts: boxes
   sudo: yes
   tasks:
     - action: apt pkg=software-properties-common state=present
@@ -19,5 +19,5 @@
 #    - action: apt pkg=zookeeperd state=present
 
 # CODE
-    - git: repo=ssh://git@github.com/icecondor/services.git dest=/home/mylogin/hello
+    - git: repo=https://github.com/icecondor/services.git dest=/home/devops/services
 
