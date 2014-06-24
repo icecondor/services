@@ -13,6 +13,7 @@
     - action: apt pkg=libprotobuf-dev state=present
     - action: apt pkg=rethinkdb state=present
     - command: cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/default.conf creates=/etc/rethinkdb/instances.d/default.conf
+    - action: apt pkg=nginx state=present
 #    - action: apt pkg=lxc-docker state=present
 #    - action: get_url url=http://aphyr.com/riemann/riemann_0.2.2_all.deb dest=/tmp/
 #    - action: command dpkg -i /tmp/riemann_0.2.2_all.deb creates=/usr/bin/riemann
@@ -20,4 +21,5 @@
 
 # CODE
     - git: repo=https://github.com/icecondor/services.git dest=/home/devops/services
+    - git: repo=https://github.com/icecondor/api.git dest=/home/devops/api version=v2
 
