@@ -1,6 +1,7 @@
 ---
-- hosts: api
+- hosts: boxes
   sudo: yes
   tasks:
-    - action: service name=rethinkdb enabled=yes state=started
+#    - action: service name=rethinkdb enabled=yes state=started
+    - command: service rethinkdb start creates=/var/run/rethinkdb/default/pid_file 
 #    - action: service name=docker state=started
