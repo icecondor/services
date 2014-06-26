@@ -3,8 +3,8 @@
   tasks:
 # User
     - user: name=devops createhome=yes generate_ssh_key=no groups="sudo" shell="/bin/bash"
-    - copy: src=../keys/bashrc dest=/home/devops/.bashrc
-    - copy: src=../keys/id_rsa dest=/home/devops/.ssh/
-    - copy: src=../keys/id_rsa.pub dest=/home/devops/.ssh/
-    - copy: src=../keys/authorized_keys dest=/home/devops/.ssh/
     - copy: src=../keys/sudoers dest=/etc/
+    - copy: owner=devops src=../keys/bashrc dest=/home/devops/.bashrc
+    - copy: owner=devops src=../keys/id_rsa dest=/home/devops/.ssh/
+    - copy: owner=devops src=../keys/id_rsa.pub dest=/home/devops/.ssh/
+    - copy: owner=devops src=../keys/authorized_keys dest=/home/devops/.ssh/
