@@ -26,4 +26,4 @@
       sudo: no
     - command: npm install chdir=/home/devops/api creates=/home/devops/api/node_modules
       sudo: no
-
+    - copy: owner=devops src=../keys/settings.json dest=/home/devops/api/settings.json

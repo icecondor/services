@@ -3,5 +3,7 @@
   sudo: yes
   tasks:
 #    - action: service name=rethinkdb enabled=yes state=started
-    - command: service rethinkdb start creates=/var/run/rethinkdb/default/pid_file 
 #    - action: service name=docker state=started
+    - command: service rethinkdb start creates=/var/run/rethinkdb/default/pid_file 
+    - command: /home/devops/api/node_modules/.bin/forever start websockets.js chdir=/home/devops/api 
+    - command: /home/devops/api/node_modules/.bin/forever start api.js chdir=/home/devops/api 

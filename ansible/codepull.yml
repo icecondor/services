@@ -1,0 +1,7 @@
+---
+- hosts: boxes
+  tasks:
+    - git: repo=https://github.com/icecondor/services.git dest=/home/devops/services
+    - git: repo=https://github.com/icecondor/api.git dest=/home/devops/api version=v2
+    - command: /home/devops/api/node_modules/.bin/forever restart api.js chdir=/home/devops/api 
+
