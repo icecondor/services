@@ -16,6 +16,7 @@
     - action: apt pkg=rethinkdb state=present
     - command: cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/default.conf creates=/etc/rethinkdb/instances.d/default.conf
     - action: apt pkg=nginx state=present
+    - copy: src=../keys/api.icecondor.com dest=/etc/nginx/sites-enabled
 #    - action: apt pkg=lxc-docker state=present
 #    - action: get_url url=http://aphyr.com/riemann/riemann_0.2.2_all.deb dest=/tmp/
 #    - action: command dpkg -i /tmp/riemann_0.2.2_all.deb creates=/usr/bin/riemann

@@ -4,6 +4,8 @@
 # User
     - user: name=devops createhome=yes generate_ssh_key=no groups="sudo" shell="/bin/bash"
     - copy: src=../keys/sudoers dest=/etc/
+    - copy: src=../keys/staging.key dest=/etc/ssl/private
+    - copy: src=../keys/staging.crt dest=/etc/ssl/private
     - copy: owner=devops src=../keys/bashrc dest=/home/devops/.bashrc
     - copy: owner=devops src=../keys/id_rsa dest=/home/devops/.ssh/
     - copy: owner=devops src=../keys/id_rsa.pub dest=/home/devops/.ssh/
