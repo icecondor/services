@@ -15,6 +15,7 @@
     - action: apt_repository repo="deb http://get.docker.io/ubuntu docker main"
 #    - action: apt_repository repo=ppa:docker-maint/testing
 
+    - action: apt_repository repo=ppa:nginx/stable
     - action: apt_repository repo=ppa:chris-lea/node.js
     - action: apt update_cache=yes
 
@@ -26,6 +27,7 @@
     - action: apt pkg=nginx state=present
     - copy: src=../keys/api.icecondor.com dest=/etc/nginx/sites-enabled
     - copy: src=../keys/index.html dest=/usr/share/nginx/html/
+    - action: apt pkg=git state=present
 #    - action: apt pkg=lxc-docker state=present
 #    - action: get_url url=http://aphyr.com/riemann/riemann_0.2.2_all.deb dest=/tmp/
 #    - action: command dpkg -i /tmp/riemann_0.2.2_all.deb creates=/usr/bin/riemann
