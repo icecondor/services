@@ -3,5 +3,6 @@
   tasks:
     - git: repo=https://github.com/icecondor/services.git dest=/home/devops/services
     - git: repo=https://github.com/icecondor/api.git dest=/home/devops/api version=v2
+    - shell: git log --pretty=format:'%h' -n 1 > version chdir=/home/devops/api 
     - command: /home/devops/api/node_modules/.bin/forever restart api.js chdir=/home/devops/api 
 
