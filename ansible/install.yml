@@ -11,7 +11,9 @@
 
 # DOCKER
 #    - apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=36A1D7869245C8950F966E92D8576A8BA88D21E9 state=present
-    - apt_key: url="http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xDF4FD13717AAD7D6" state=present
+#    - apt_key: url="http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xDF4FD13717AAD7D6" state=present
+# different key (1-Aug-2014)
+    - apt_key: url="http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xD8576A8BA88D21E9" state=present
     - action: apt_repository repo="deb http://get.docker.io/ubuntu docker main"
 #    - action: apt_repository repo=ppa:docker-maint/testing
 
@@ -24,10 +26,14 @@
     - action: apt pkg=libprotobuf-dev state=present
     - action: apt pkg=rethinkdb state=present
     - command: cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/default.conf creates=/etc/rethinkdb/instances.d/default.conf
+# NGINX
     - action: apt pkg=nginx state=present
     - copy: src=../keys/api.icecondor.com dest=/etc/nginx/sites-enabled
     - copy: src=../keys/index.html dest=/usr/share/nginx/html/
+# GIT
     - action: apt pkg=git state=present
+# POSTFIX
+    - action: apt pkg=postfix state=present
 #    - action: apt pkg=lxc-docker state=present
 #    - action: get_url url=http://aphyr.com/riemann/riemann_0.2.2_all.deb dest=/tmp/
 #    - action: command dpkg -i /tmp/riemann_0.2.2_all.deb creates=/usr/bin/riemann
