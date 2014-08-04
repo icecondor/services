@@ -2,8 +2,11 @@
 - hosts: boxes
   sudo: yes
   tasks:
+# PREREQs
     - action: apt pkg=software-properties-common state=present
+    - action: apt pkg=build-essential state=present
 
+## REPOS
 # RETHINK
     - apt_key: url="http://download.rethinkdb.com/apt/pubkey.gpg" state=present
     - action: apt_repository repo="deb http://download.rethinkdb.com/apt trusty main"
@@ -19,8 +22,10 @@
 
     - action: apt_repository repo=ppa:nginx/stable
     - action: apt_repository repo=ppa:chris-lea/node.js
+# CACHE UPDATE
     - action: apt update_cache=yes
 
+## PACKAGES
     - action: apt pkg=nodejs state=present
     - action: apt pkg=redis-server state=present
     - action: apt pkg=libprotobuf-dev state=present

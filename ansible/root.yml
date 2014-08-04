@@ -10,3 +10,4 @@
     - copy: owner=devops src=../keys/id_rsa dest=/home/devops/.ssh/
     - copy: owner=devops src=../keys/id_rsa.pub dest=/home/devops/.ssh/
     - copy: owner=devops src=../keys/authorized_keys dest=/home/devops/.ssh/
+    - file: force=yes state=link src=/usr/share/zoneinfo/America/Los_Angeles path=/etc/localtime
