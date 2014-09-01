@@ -28,6 +28,7 @@
 ## PACKAGES
     - action: apt pkg=nodejs state=present
     - action: apt pkg=redis-server state=present
+    - action: apt pkg=collectd state=present
     - action: apt pkg=libprotobuf-dev state=present
     - action: apt pkg=rethinkdb state=present
     - command: cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/default.conf creates=/etc/rethinkdb/instances.d/default.conf
