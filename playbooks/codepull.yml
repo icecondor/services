@@ -4,6 +4,8 @@
     - git: repo=https://github.com/icecondor/services.git dest=/home/devops/services version=master
     - git: repo=https://github.com/icecondor/api.git dest=/home/devops/api version=master
     - shell: git log --pretty=format:'%h' -n 1 > version chdir=/home/devops/api 
+    - git: repo=https://github.com/icecondor/web.git dest=/home/devops/web version=master
+    - shell: git log --pretty=format:'%h' -n 1 > version chdir=/home/devops/web 
     - command: npm install chdir=/home/devops/api creates=/home/devops/api/node_modules
     - command: /home/devops/api/node_modules/.bin/forever restart api.js chdir=/home/devops/api 
 

@@ -22,6 +22,8 @@
 
     - action: apt_repository repo=ppa:nginx/stable
     - action: apt_repository repo=ppa:chris-lea/node.js
+# RUBY
+    - action: apt_repository repo="ppa:brightbox/ruby-ng"
 # CACHE UPDATE
     - action: apt update_cache=yes
 
@@ -30,6 +32,8 @@
     - action: apt pkg=redis-server state=present
     - action: apt pkg=libprotobuf-dev state=present
     - action: apt pkg=rethinkdb state=present
+    - action: apt pkg=ruby2.1-dev state=present
+    - command: gem install bundler
     - command: cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/default.conf creates=/etc/rethinkdb/instances.d/default.conf
 # NGINX
     - action: apt pkg=nginx state=present
