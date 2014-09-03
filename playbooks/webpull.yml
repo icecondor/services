@@ -1,0 +1,10 @@
+---
+- hosts: boxes
+  tasks:
+    - git: repo=https://github.com/icecondor/web.git dest=/home/devops/web version=master
+    - shell: git log --pretty=format:'%h' -n 1 > version chdir=/home/devops/web 
+    - command: npm install chdir=/home/devops/api creates=/home/devops/web/node_modules
+    - shell: PATH=$PATH:./bin grunt 
+      args:
+        chdir: /home/devops/web
+
