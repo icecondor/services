@@ -58,9 +58,3 @@
     - command: npm install chdir=/home/devops/api creates=/home/devops/api/node_modules
       sudo: no
     - copy: owner=devops src=../keys/settings.json dest=/home/devops/api/settings.json
-    - git: repo=https://github.com/icecondor/web.git dest=/home/devops/web version=v2
-      sudo: no
-    - command: npm install chdir=/home/devops/web creates=/home/devops/web/node_modules
-      sudo: no
-    - command: bundle chdir=/home/devops/web creates=/home/devops/web/gems
-      sudo: no

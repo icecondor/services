@@ -1,0 +1,27 @@
+---
+- hosts: boxes
+  sudo: yes
+  tasks:
+# PREREQs
+    - action: apt pkg=software-properties-common state=present
+    - action: apt pkg=build-essential state=present
+
+## REPOS
+    - action: apt_repository repo=ppa:nginx/stable
+    - action: apt_repository repo=ppa:chris-lea/node.js
+# RUBY
+    - action: apt_repository repo="ppa:brightbox/ruby-ng"
+# CACHE UPDATE
+    - action: apt update_cache=yes
+
+## PACKAGES
+    - action: apt pkg=nodejs state=present
+# RUBY
+    - action: apt pkg=ruby2.1-dev state=present
+    - command: gem install bundler
+# NGINX
+    - action: apt pkg=nginx state=present
+    - copy: src=../keys/api.icecondor.com dest=/etc/nginx/sites-enabled
+    - copy: src=../keys/index.html dest=/usr/share/nginx/html/
+# GIT
+    - action: apt pkg=git state=present
