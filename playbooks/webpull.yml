@@ -1,5 +1,5 @@
 ---
-- hosts: boxes
+- hosts: api
   tasks:
     - git: repo=https://github.com/icecondor/web.git dest=/home/devops/web version=master
     - command: bundle chdir=/home/devops/web creates=/home/devops/web/gems

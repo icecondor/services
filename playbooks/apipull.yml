@@ -1,5 +1,5 @@
 ---
-- hosts: boxes
+- hosts: api
   tasks:
     - git: repo=https://github.com/icecondor/services.git dest=/home/devops/services version=master
 
