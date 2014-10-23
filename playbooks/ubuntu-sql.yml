@@ -1,0 +1,25 @@
+---
+- hosts: sql
+  sudo: yes
+  tasks:
+# PREREQs
+    - action: apt pkg=software-properties-common state=present
+    - action: apt pkg=build-essential state=present
+
+## REPOS
+# RETHINK
+    - apt_key: url="http://download.rethinkdb.com/apt/pubkey.gpg" state=present
+    - action: apt_repository repo="deb http://download.rethinkdb.com/apt trusty main"
+# CACHE UPDATE
+    - action: apt update_cache=yes
+
+## PACKAGES
+# RETHINK
+    - action: apt pkg=rethinkdb state=present
+    - copy: src=../keys/rethinkdb.conf dest=/etc/rethinkdb/instances.d/default.conf
+# GIT
+    - action: apt pkg=git state=present
+
+# START
+    - command: service rethinkdb start creates=/var/run/rethinkdb/default/pid_file
+      sudo: yes
