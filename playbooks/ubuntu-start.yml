@@ -1,5 +1,5 @@
 ---
-- hosts: boxes
+- hosts: api:sql
   tasks:
 # User
     - user: name=devops createhome=yes generate_ssh_key=no groups="sudo" shell="/bin/bash"

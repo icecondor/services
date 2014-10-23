@@ -1,5 +1,5 @@
 ---
-- hosts: boxes
+- hosts: api
   sudo: yes
   tasks:
 # PREREQs
@@ -7,33 +7,18 @@
     - action: apt pkg=build-essential state=present
 
 ## REPOS
-# RETHINK
-    - apt_key: url="http://download.rethinkdb.com/apt/pubkey.gpg" state=present
-    - action: apt_repository repo="deb http://download.rethinkdb.com/apt trusty main"
-#    - action: apt_repository repo="ppa:rethinkdb/ppa"
-
-# DOCKER
-#    - apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=36A1D7869245C8950F966E92D8576A8BA88D21E9 state=present
-#    - apt_key: url="http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xDF4FD13717AAD7D6" state=present
-# different key (1-Aug-2014)
-    - apt_key: url="http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xD8576A8BA88D21E9" state=present
-    - action: apt_repository repo="deb http://get.docker.io/ubuntu docker main"
-#    - action: apt_repository repo=ppa:docker-maint/testing
-
     - action: apt_repository repo=ppa:nginx/stable
     - action: apt_repository repo=ppa:chris-lea/node.js
-# RUBY
     - action: apt_repository repo="ppa:brightbox/ruby-ng"
 # CACHE UPDATE
     - action: apt update_cache=yes
 
 ## PACKAGES
+# NODE
     - action: apt pkg=nodejs state=present
+# REDIS
     - action: apt pkg=redis-server state=present
     - action: apt pkg=libprotobuf-dev state=present
-# RETHINK
-    - action: apt pkg=rethinkdb state=present
-    - command: cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/default.conf creates=/etc/rethinkdb/instances.d/default.conf
 # RUBY
     - action: apt pkg=ruby2.1-dev state=present
     - command: gem install bundler
@@ -45,10 +30,6 @@
     - action: apt pkg=git state=present
 # POSTFIX
     - action: apt pkg=postfix state=present
-#    - action: apt pkg=lxc-docker state=present
-#    - action: get_url url=http://aphyr.com/riemann/riemann_0.2.2_all.deb dest=/tmp/
-#    - action: command dpkg -i /tmp/riemann_0.2.2_all.deb creates=/usr/bin/riemann
-#    - action: apt pkg=zookeeperd state=present
 
 # CODE
     - git: repo=https://github.com/icecondor/services.git dest=/home/devops/services
@@ -58,3 +39,7 @@
     - command: npm install chdir=/home/devops/api creates=/home/devops/api/node_modules
       sudo: no
     - copy: owner=devops src=../keys/settings.json dest=/home/devops/api/settings.json
+
+# START
+    - command: /home/devops/api/node_modules/.bin/forever start websockets.js chdir=/home/devops/api
+    - command: /home/devops/api/node_modules/.bin/forever start api.js chdir=/home/devops/api

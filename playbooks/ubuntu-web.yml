@@ -1,5 +1,5 @@
 ---
-- hosts: boxes
+- hosts: web
   sudo: yes
   tasks:
 # PREREQs
