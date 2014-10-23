@@ -42,4 +42,5 @@
 
 # START
     - command: /home/devops/api/node_modules/.bin/forever start websockets.js chdir=/home/devops/api
+    - command: /home/devops/api/node_modules/.bin/forever start sockjs.js chdir=/home/devops/api
     - command: /home/devops/api/node_modules/.bin/forever start api.js chdir=/home/devops/api
