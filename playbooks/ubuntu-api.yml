@@ -2,9 +2,6 @@
 - hosts: api
   sudo: yes
   tasks:
-# PREREQs
-    - action: apt pkg=software-properties-common state=present
-    - action: apt pkg=build-essential state=present
 
 ## REPOS
     - action: apt_repository repo=ppa:nginx/stable
@@ -13,6 +10,10 @@
 # CACHE UPDATE
     - action: apt update_cache=yes
 
+# PREREQs
+    - action: apt pkg=software-properties-common state=present
+    - action: apt pkg=build-essential state=present
+
 ## PACKAGES
 # NODE
     - action: apt pkg=nodejs state=present
@@ -20,6 +21,7 @@
     - action: apt pkg=redis-server state=present
     - action: apt pkg=libprotobuf-dev state=present
 # RUBY
+    - action: apt pkg=ruby2.1 state=present
     - action: apt pkg=ruby2.1-dev state=present
     - command: gem install bundler
 # NGINX
