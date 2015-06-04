@@ -25,3 +25,5 @@
     - copy: src=../keys/index.html dest=/usr/share/nginx/html/
 # GIT
     - action: apt pkg=git state=present
+# DKIM
+    - action: apt pkg=opendkim state=present
