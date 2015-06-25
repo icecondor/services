@@ -44,10 +44,10 @@
     - copy: owner=devops src=../keys/settings.json dest=/home/devops/api/settings.json
 
 # START
-    - command: /home/devops/api/node_modules/.bin/forever start websockets.js chdir=/home/devops/api
+    - command: /home/devops/api/node_modules/.bin/pm2 start websockets.js chdir=/home/devops/api
       sudo: no
-    - command: /home/devops/api/node_modules/.bin/forever start sockjs.js chdir=/home/devops/api
+    - command: /home/devops/api/node_modules/.bin/pm2 start sockjs.js chdir=/home/devops/api
       sudo: no
-    - command: /home/devops/api/node_modules/.bin/forever start api.js chdir=/home/devops/api
+    - command: /home/devops/api/node_modules/.bin/pm2 start api.js chdir=/home/devops/api
       sudo: no
 
