@@ -1,4 +1,7 @@
 /.bundle
+/keys
+
+/playbooks/*.retry
 
 # terraform keys
 digitalocean.tf
