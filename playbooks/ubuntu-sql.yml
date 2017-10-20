@@ -1,6 +1,9 @@
 ---
 - hosts: sql
-  sudo: yes
+  become_user: root
+  vars:
+    ansible_ssh_user: root
+    ansible_ssh_private_key_file: "../keys/digitalocean.root.key"
   tasks:
 # PREREQs
     - action: apt pkg=software-properties-common state=present
@@ -9,7 +12,7 @@
 ## REPOS
 # RETHINK
     - apt_key: url="http://download.rethinkdb.com/apt/pubkey.gpg" state=present
-    - action: apt_repository repo="deb http://download.rethinkdb.com/apt trusty main"
+    - action: apt_repository repo="deb http://download.rethinkdb.com/apt xenial main"
 # CACHE UPDATE
     - action: apt update_cache=yes
 
@@ -22,4 +25,4 @@
 
 # START
     - command: service rethinkdb start creates=/var/run/rethinkdb/default/pid_file
-      sudo: yes
+      become_user: root
