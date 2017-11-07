@@ -12,7 +12,7 @@
 ## REPOS
 # RETHINK
     - apt_key: url="http://download.rethinkdb.com/apt/pubkey.gpg" state=present
-    - action: apt_repository repo="deb http://download.rethinkdb.com/apt xenial main"
+    - action: apt_repository repo="deb http://download.rethinkdb.com/apt {{ ansible_distribution_release }} main"
 # CACHE UPDATE
     - action: apt update_cache=yes
 

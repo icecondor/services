@@ -17,7 +17,7 @@
 
     - name: "/etc/hosts"
       copy:
-        src: ../etc-hosts
+        src: ../keys/etc-hosts
         dest: /etc/hosts
 
     - name: "syslog restart"
