@@ -24,5 +24,8 @@
     - action: apt pkg=git state=present
 
 # START
-    - command: service rethinkdb start creates=/var/run/rethinkdb/default/pid_file
-      become_user: root
+    - name: "restart rethinkdb"
+      service:
+        name: rethinkdb
+        state: restarted
+
