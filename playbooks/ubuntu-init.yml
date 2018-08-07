@@ -9,7 +9,7 @@
 
   vars:
     ansible_ssh_user: root
-    ansible_ssh_private_key_file: "../keys/digitalocean.root.key"
+    ansible_ssh_private_key_file: "../keys/digitalocean.key"
   tasks:
     - name: "hostname {{inventory_hostname}}"
       hostname:
