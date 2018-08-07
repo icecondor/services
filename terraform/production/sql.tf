@@ -1,4 +1,8 @@
 resource "digitalocean_droplet" "icecondor-sql-nyc3-bb" {
+  lifecycle { 
+   prevent_destroy = true
+  }
+
   name               = "icecondor-sql-nyc3-bb"
   size               = "1gb"
   image              = "ubuntu-16-04-x64"
