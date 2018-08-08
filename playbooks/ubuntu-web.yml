@@ -14,8 +14,6 @@
     - action: apt_repository repo=ppa:nginx/stable
     - apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
     - action: apt_repository repo="deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main"
-# RUBY
-    - action: apt_repository repo="ppa:brightbox/ruby-ng"
 # CACHE UPDATE
     - action: apt update_cache=yes
 

@@ -1,11 +1,14 @@
 ---
 - hosts: api
-  become_user: root
+  become: yes
+  vars:
+    ansible_ssh_user: root
 
   tasks:
 ## REPOS
     - action: apt_repository repo=ppa:nginx/stable
-    - action: apt_repository repo=ppa:chris-lea/node.js
+    - apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
+    - action: apt_repository repo="deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main"
 # CACHE UPDATE
     - action: apt update_cache=yes
 
@@ -17,35 +20,40 @@
 # NODE
     - action: apt pkg=nodejs state=present
 # REDIS
-    - action: apt pkg=redis-server state=present
-    - action: apt pkg=libprotobuf-dev state=present
+    - name: "install redis"
+      apt: pkg=redis-server state=present
+    - name: "install protobuf"
+      apt: pkg=libprotobuf-dev state=present
 # RUBY
     - action: apt pkg=ruby-dev state=present
     - command: gem install bundler
 # NGINX
-    - action: apt pkg=nginx state=present
+    - name: "install NGINX"
+      apt: pkg=nginx state=present
     - copy: src=../keys/api.icecondor.com dest=/etc/nginx/sites-enabled/
     - copy: src=../keys/index.html dest=/usr/share/nginx/html/
 
 # GIT
-    - action: apt pkg=git state=present
-# POSTFIX
-    - action: apt pkg=postfix state=present
+    - name: "install git"
+      apt: pkg=git state=present
 
 # CODE
-    - git: repo=https://github.com/icecondor/services.git dest=/home/devops/services
-      sudo: no
-    - git: repo=https://github.com/icecondor/api.git dest=/home/devops/api version=master
-      sudo: no
-    - command: npm install chdir=/home/devops/api creates=/home/devops/api/node_modules
-      sudo: no
+    - name: "git clone icecondor/services"
+      git: repo=https://github.com/icecondor/services.git dest=/home/devops/services
+      become_user: devops
+    - name: "git clone icecondor/api"
+      git: repo=https://github.com/icecondor/api.git dest=/home/devops/api version=master
+      become_user: devops
+    - name: "npm install icecondor/api"
+      command: npm install chdir=/home/devops/api creates=/home/devops/api/node_modules
+      become_user: devops
     - copy: owner=devops src=../keys/settings.json dest=/home/devops/api/settings.json
 
 # START
-    - command: /home/devops/api/node_modules/.bin/pm2 start websockets.js chdir=/home/devops/api
-      sudo: no
-    - command: /home/devops/api/node_modules/.bin/pm2 start sockjs.js chdir=/home/devops/api
-      sudo: no
-    - command: /home/devops/api/node_modules/.bin/pm2 start api.js chdir=/home/devops/api
-      sudo: no
+#    - command: /home/devops/api/node_modules/.bin/pm2 start websockets.js chdir=/home/devops/api
+#      sudo: no
+#    - command: /home/devops/api/node_modules/.bin/pm2 start sockjs.js chdir=/home/devops/api
+#      sudo: no
+#    - command: /home/devops/api/node_modules/.bin/pm2 start api.js chdir=/home/devops/api
+#      sudo: no
 
