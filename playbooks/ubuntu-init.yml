@@ -1,5 +1,5 @@
 ---
-- hosts: web sql
+- hosts: api sql web
   become_user: root
   gather_facts: no # no python yet
   pre_tasks:
@@ -9,7 +9,7 @@
 
   vars:
     ansible_ssh_user: root
-    ansible_ssh_private_key_file: "../keys/digitalocean.key"
+
   tasks:
     - name: "hostname {{inventory_hostname}}"
       hostname:
@@ -31,3 +31,14 @@
         shell: /bin/bash
         generate_ssh_key: yes
         ssh_key_type: ed25519
+
+    - name: "devops authorized_keys"
+      copy:
+        remote_src: yes
+        src: ~devops/.ssh/id_ed25519.pub
+        dest: ~devops/.ssh/authorized_keys
+
+    - name: "devops key retrieve"
+      fetch:
+        src: ~devops/.ssh/id_ed25519
+        dest: "../keys/{{inventory_hostname}}.devops"
