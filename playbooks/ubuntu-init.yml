@@ -41,3 +41,19 @@
       fetch:
         src: ~devops/.ssh/id_ed25519
         dest: "../keys/"
+# PREREQs
+    - name: "install software-properties-common"
+      apt: pkg=software-properties-common state=present
+    - name: "install build-essential"
+      apt: pkg=build-essential state=present
+
+# REPOS
+    - name: "add nginx/stable repository"
+      apt_repository: repo=ppa:nginx/stable update_cache=no
+    - name: "add nodesource key"
+      apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
+    - name: "add nodesource repository {{ ansible_distribution_release }}"
+      apt_repository: repo="deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main" update_cache=no
+# CACHE UPDATE
+    - name: "update apt cache"
+      apt: update_cache=yes

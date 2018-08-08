@@ -4,18 +4,6 @@
     ansible_ssh_user: root
 
   tasks:
-# PREREQs
-    - name: "install software-properties-common"
-      apt: pkg=software-properties-common state=present
-    - name: "install build-essential"
-      apt: pkg=build-essential state=present
-
-## REPOS
-    - action: apt_repository repo=ppa:nginx/stable
-    - apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
-    - action: apt_repository repo="deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main"
-# CACHE UPDATE
-    - action: apt update_cache=yes
 
 ## PACKAGES
     - action: apt pkg=nodejs state=present
@@ -26,8 +14,11 @@
 # NGINX
     - name: "install NGINX"
       apt: pkg=nginx state=present
-    - copy: src=../keys/api.icecondor.com dest=/etc/nginx/sites-enabled
+    - copy: src=../keys/nginx.conf dest=/etc/nginx/
+    - copy: src=../keys/nginx/web.icecondor.com dest=/etc/nginx/sites/
     - copy: src=../keys/index.html dest=/usr/share/nginx/html/
+    - name: "reloading nginx"
+      systemd: name=nginx state=reloaded
 # GIT
     - name: "install git"
       apt: pkg=git state=present

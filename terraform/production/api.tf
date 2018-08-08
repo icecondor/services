@@ -7,7 +7,7 @@ resource "digitalocean_droplet" "icecondor-api-nyc3-aa" {
   ipv6               = "true"
   name               = "mx.icecondor.com"
   size               = "1gb"
-  image              = "6918990"                                           #"ubuntu-14-04-x64"
+  image              = "ubuntu-14-04-x64"
   region             = "nyc3"
   resize_disk        = false
   private_networking = true

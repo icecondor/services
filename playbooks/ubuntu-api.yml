@@ -5,17 +5,6 @@
     ansible_ssh_user: root
 
   tasks:
-## REPOS
-    - action: apt_repository repo=ppa:nginx/stable
-    - apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
-    - action: apt_repository repo="deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main"
-# CACHE UPDATE
-    - action: apt update_cache=yes
-
-# PREREQs
-    - action: apt pkg=software-properties-common state=present
-    - action: apt pkg=build-essential state=present
-
 ## PACKAGES
 # NODE
     - action: apt pkg=nodejs state=present
@@ -25,13 +14,18 @@
     - name: "install protobuf"
       apt: pkg=libprotobuf-dev state=present
 # RUBY
-    - action: apt pkg=ruby-dev state=present
+    - name: "install ruby"
+      apt: pkg=ruby-dev state=present
     - command: gem install bundler
 # NGINX
     - name: "install NGINX"
       apt: pkg=nginx state=present
-    - copy: src=../keys/api.icecondor.com dest=/etc/nginx/sites-enabled/
+    - copy: src=../keys/nginx.conf dest=/etc/nginx/
+    - copy: src=../keys/nginx/_default dest=/etc/nginx/sites/
+    - copy: src=../keys/nginx/api.icecondor.com dest=/etc/nginx/sites/
     - copy: src=../keys/index.html dest=/usr/share/nginx/html/
+    - name: "reloading nginx"
+      systemd: name=nginx state=reloaded
 
 # GIT
     - name: "install git"
@@ -44,7 +38,7 @@
     - name: "git clone icecondor/api"
       git: repo=https://github.com/icecondor/api.git dest=/home/devops/api version=master
       become_user: devops
-    - name: "npm install icecondor/api"
+    - name: "api$ npm install"
       command: npm install chdir=/home/devops/api creates=/home/devops/api/node_modules
       become_user: devops
     - copy: owner=devops src=../keys/settings.json dest=/home/devops/api/settings.json
