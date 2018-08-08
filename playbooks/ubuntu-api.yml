@@ -23,6 +23,8 @@
       become_user: devops
     - name: "install NGINX"
       apt: pkg=nginx state=present
+    - file: state=absent path="/etc/nginx/sites-available"
+    - file: state=absent path="/etc/nginx/sites-enabled"
     - copy: src=../keys/nginx.conf dest=/etc/nginx/
     - copy: src=../keys/nginx/_default dest=/etc/nginx/sites/
     - copy: src=../keys/nginx/api.icecondor.com dest=/etc/nginx/sites/
