@@ -18,6 +18,9 @@
       apt: pkg=ruby-dev state=present
     - command: gem install bundler
 # NGINX
+    - name: "copying LEGO certs"
+      copy: src=../keys/icecondor-lego/ dest=/home/devops/.lego/
+      become_user: devops
     - name: "install NGINX"
       apt: pkg=nginx state=present
     - copy: src=../keys/nginx.conf dest=/etc/nginx/

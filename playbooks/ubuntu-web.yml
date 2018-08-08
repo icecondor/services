@@ -12,11 +12,7 @@
       apt: pkg=ruby-dev state=present
     - command: gem install bundler
 # NGINX
-    - name: "install NGINX"
-      apt: pkg=nginx state=present
-    - copy: src=../keys/nginx.conf dest=/etc/nginx/
     - copy: src=../keys/nginx/web.icecondor.com dest=/etc/nginx/sites/
-    - copy: src=../keys/index.html dest=/usr/share/nginx/html/
     - name: "reloading nginx"
       systemd: name=nginx state=reloaded
 # GIT
