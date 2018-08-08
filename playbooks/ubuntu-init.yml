@@ -1,14 +1,13 @@
 ---
 - hosts: api sql web
-  become_user: root
+  vars:
+    ansible_ssh_user: root
   gather_facts: no # no python yet
   pre_tasks:
     - name: 'install python2'
       raw: apt-get -y install python-simplejson
     - action: setup
 
-  vars:
-    ansible_ssh_user: root
 
   tasks:
     - name: "hostname {{inventory_hostname}}"
@@ -41,4 +40,4 @@
     - name: "devops key retrieve"
       fetch:
         src: ~devops/.ssh/id_ed25519
-        dest: "../keys/{{inventory_hostname}}.devops"
+        dest: "../keys/"
