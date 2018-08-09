@@ -18,8 +18,8 @@
       apt: pkg=ruby-dev state=present
     - command: gem install bundler
 # NGINX
-    - name: "copying LEGO certs"
-      copy: src=../keys/icecondor-lego/ dest=/home/devops/.lego/
+    - name: "copying LEGO identities"
+      copy: src=../keys/letsencrypt-lego/ dest=/home/devops/.lego/
       become_user: devops
     - name: "install NGINX"
       apt: pkg=nginx state=present
@@ -35,6 +35,19 @@
 # GIT
     - name: "install git"
       apt: pkg=git state=present
+
+#LEGO
+    - name: "download lego"
+      get_url:
+      args:
+        url: "https://github.com/xenolf/lego/releases/download/v1.0.1/lego_v1.0.1_linux_amd64.tar.gz"
+        dest: /tmp/
+
+    - name: "unpack lego"
+      command: tar xf /tmp/lego_v1.0.1_linux_amd64.tar.gz lego
+      args:
+        chdir: /usr/local/bin
+        creates: /usr/local/bin/lego
 
 # CODE
     - name: "git clone icecondor/services"
