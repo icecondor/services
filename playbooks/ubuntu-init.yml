@@ -37,10 +37,11 @@
         src: ~devops/.ssh/id_ed25519.pub
         dest: ~devops/.ssh/authorized_keys
 
-    - name: "devops key retrieve"
+    - name: "devops key retrieve to ./keys/ssh/{{inventory_hostname}}"
       fetch:
         src: ~devops/.ssh/id_ed25519
-        dest: "../keys/"
+        dest: "../keys/ssh/{{inventory_hostname}}" #relative to playbook dir
+        flat: yes
 # PREREQs
     - name: "install software-properties-common"
       apt: pkg=software-properties-common state=present
