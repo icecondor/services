@@ -7,12 +7,18 @@
   tasks:
 ## PACKAGES
 # NODE
-    - action: apt pkg=nodejs state=present
+    - name: "install nodejs"
+      action: apt pkg=nodejs state=present
+# node/pm2
+    - name: "install PM2"
+      command: npm install -g pm2
 # REDIS
     - name: "install redis"
       apt: pkg=redis-server state=present
-    - name: "install protobuf"
+    - name: "install libprotobuf"
       apt: pkg=libprotobuf-dev state=present
+    - name: "install libprotoc"
+      apt: pkg=libprotoc-dev state=present
 # RUBY
     - name: "install ruby"
       apt: pkg=ruby-dev state=present
