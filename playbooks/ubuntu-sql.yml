@@ -53,7 +53,7 @@
         daemon_reload: yes
         name: rqlited
         enabled: yes
-        state: reloaded
+        state: started
 # GIT
     - action: apt pkg=git state=present
 
