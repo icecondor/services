@@ -11,6 +11,8 @@
     - name: "install ruby"
       apt: pkg=ruby-dev state=present
     - command: gem install bundler
+      args:
+        creates: /usr/local/bin/bundle
 # NGINX
     - copy: src=../keys/nginx/web.icecondor.com dest=/etc/nginx/sites/
     - name: "reloading nginx"

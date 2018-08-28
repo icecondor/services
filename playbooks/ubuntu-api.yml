@@ -12,6 +12,8 @@
 # node/pm2
     - name: "install PM2"
       command: npm install -g pm2
+      args:
+        creates: /usr/bin/pm2
 # REDIS
     - name: "install redis"
       apt: pkg=redis-server state=present
@@ -23,10 +25,9 @@
     - name: "install ruby"
       apt: pkg=ruby-dev state=present
     - command: gem install bundler
+      args:
+        creates: /usr/local/bin/bundle
 # NGINX
-    - name: "copying LEGO identities"
-      copy: src=../keys/letsencrypt-lego/ dest=/home/devops/.lego/
-      become_user: devops
     - name: "install NGINX"
       apt: pkg=nginx state=present
     - file: state=absent path="/etc/nginx/sites-available"
@@ -35,25 +36,28 @@
     - copy: src=../keys/nginx/_default dest=/etc/nginx/sites/
     - copy: src=../keys/nginx/api.icecondor.com dest=/etc/nginx/sites/
     - copy: src=../keys/index.html dest=/usr/share/nginx/html/
+
+#LEGO
+    - name: "copying letsencrypt support (lego)"
+      copy: src=../keys/letsencrypt-lego/ dest=/home/devops/.lego/
+      become_user: devops
+    - name: "downloading lego 1.0.1"
+      get_url:
+      args:
+        url: "https://github.com/xenolf/lego/releases/download/v1.0.1/lego_v1.0.1_linux_amd64.tar.gz"
+        dest: /tmp/
+
+    - name: "unpack lego 1.0.1"
+      command: tar xf /tmp/lego_v1.0.1_linux_amd64.tar.gz lego
+      args:
+        chdir: /usr/local/bin
+        creates: /usr/local/bin/lego
     - name: "reloading nginx"
       systemd: name=nginx state=reloaded
 
 # GIT
     - name: "install git"
       apt: pkg=git state=present
-
-#LEGO
-    - name: "download lego"
-      get_url:
-      args:
-        url: "https://github.com/xenolf/lego/releases/download/v1.0.1/lego_v1.0.1_linux_amd64.tar.gz"
-        dest: /tmp/
-
-    - name: "unpack lego"
-      command: tar xf /tmp/lego_v1.0.1_linux_amd64.tar.gz lego
-      args:
-        chdir: /usr/local/bin
-        creates: /usr/local/bin/lego
 
 # CODE
     - name: "git clone icecondor/services"
@@ -67,11 +71,19 @@
       become_user: devops
     - copy: owner=devops src=../keys/settings.json dest=/home/devops/api/settings.json
 
-# START
-#    - command: /home/devops/api/node_modules/.bin/pm2 start websockets.js chdir=/home/devops/api
-#      sudo: no
-#    - command: /home/devops/api/node_modules/.bin/pm2 start sockjs.js chdir=/home/devops/api
-#      sudo: no
-#    - command: /home/devops/api/node_modules/.bin/pm2 start api.js chdir=/home/devops/api
-#      sudo: no
-
+# PM2 START
+    - name: "pm2 start websockets.js"
+      command: pm2 start -f websockets.js
+      args:
+        chdir: /home/devops/api
+      become_user: devops
+    - name: "pm2 start sockjs.js"
+      command: pm2 start -f sockjs.js
+      args:
+        chdir: /home/devops/api
+      become_user: devops
+    - name: "pm2 start api.js"
+      command: pm2 start -f api.js
+      args:
+        chdir: /home/devops/api
+      become_user: devops

@@ -1,5 +1,10 @@
 ---
 - hosts: api
+  become: yes
+  become_user: devops
+  vars:
+    ansible_ssh_user: root
+
   tasks:
     - git: repo=https://github.com/icecondor/services.git dest=/home/devops/services version=master
 

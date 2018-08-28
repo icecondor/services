@@ -1,0 +1,10 @@
+[Unit]
+Description=rqlited
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/rqlited -on-disk /rqlite-data
+Type=simple
+
+[Install]
+WantedBy=default.target
