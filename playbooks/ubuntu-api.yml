@@ -82,8 +82,13 @@
       args:
         chdir: /home/devops/api
       become_user: devops
+    - name: "typescript compile"
+      command: ./node_modules/.bin/tsc
+      args:
+        chdir: /home/devops/api
+      become_user: devops
     - name: "pm2 start api.js"
-      command: pm2 start -f api.js
+      command: pm2 start -f ./build/api.js
       args:
         chdir: /home/devops/api
       become_user: devops
