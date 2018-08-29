@@ -62,9 +62,9 @@
 # GIT
     - name: "install git"
       apt: pkg=git state=present
-    - name: "install autoconf"
+    - name: "install autoconf" # for proto-sql
       apt: pkg=autoconf state=present
-    - name: "install automake"
+    - name: "install automake" # for proto-sql
       apt: pkg=automake state=present
 
 # CODE
