@@ -1,10 +1,26 @@
 ---
-- hosts: web api
+- hosts: api
   vars:
     ansible_ssh_user: root
 
   tasks:
 # POSTFIX
-    - action: apt pkg=postfix state=present
+    - name: "install postfix"
+      apt: pkg=postfix state=present
+    - copy: src=../keys/opendkim/main.cf dest=/etc/postfix/
+    - name: "postfix restart"
+      service:
+        name: postfix
+        state: restarted
+    - name: "install alpine"
+      apt: pkg=alpine state=present
+
 # DKIM
-    - action: apt pkg=opendkim state=present
+    - name: "install opendkim"
+      apt: pkg=opendkim state=present
+    - copy: src=../keys/opendkim/opendkim.conf dest=/etc/
+    - copy: src=../keys/opendkim/icecondor.dkim.key mode=0640 dest=/etc/postfix/
+    - name: "opendkim restart"
+      service:
+        name: opendkim
+        state: restarted
