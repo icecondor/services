@@ -34,6 +34,7 @@
     - name: "devops authorized_keys"
       copy:
         remote_src: yes
+        owner: devops
         src: ~devops/.ssh/id_ed25519.pub
         dest: ~devops/.ssh/authorized_keys
 
