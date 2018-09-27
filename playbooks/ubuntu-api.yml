@@ -11,7 +11,7 @@
         path: /mnt/geodata
         src: LABEL=geodata
         fstype: xfs
-        state: present
+        state: mounted
 # Node.js
     - name: "install nodejs"
       action: apt pkg=nodejs state=present
@@ -38,13 +38,15 @@
       apt: pkg=nginx state=present
     - file: state=absent path="/etc/nginx/sites-available"
     - file: state=absent path="/etc/nginx/sites-enabled"
-    - copy: src=../keys/nginx.conf dest=/etc/nginx/
+    - name: "nginx.conf"
+      copy: src=../keys/nginx.conf dest=/etc/nginx/
     - copy: src=../keys/nginx/_default dest=/etc/nginx/sites/
-    - copy: src=../keys/nginx/api.icecondor.com dest=/etc/nginx/sites/
+    - name: "sites/api.icecondor.com"
+      copy: src=../keys/nginx/api.icecondor.com dest=/etc/nginx/sites/
     - copy: src=../keys/index.html dest=/usr/share/nginx/html/
 
 #LEGO
-    - name: "copying letsencrypt support (lego)"
+    - name: "lego config"
       copy:
       args:
         src: ../keys/letsencrypt-lego/
@@ -110,7 +112,7 @@
         chdir: /home/devops/api
       become_user: devops
     - name: "pm2 start api.js"
-      command: pm2 start -f ./build/api.js
+      command: pm2 start -f ./build/api/api.js
       args:
         chdir: /home/devops/api
       become_user: devops
