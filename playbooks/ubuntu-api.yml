@@ -5,8 +5,14 @@
     ansible_ssh_user: root
 
   tasks:
-## PACKAGES
-# NODE
+# /etc/fstab
+    - name: "/etc/fstab geodata"
+      mount:
+        path: /mnt/geodata
+        src: LABEL=geodata
+        fstype: xfs
+        state: present
+# Node.js
     - name: "install nodejs"
       action: apt pkg=nodejs state=present
 # node/pm2
@@ -14,14 +20,14 @@
       command: npm install -g pm2
       args:
         creates: /usr/bin/pm2
-# REDIS
+# Redis
     - name: "install redis"
       apt: pkg=redis-server state=present
     - name: "install libprotobuf"
       apt: pkg=libprotobuf-dev state=present
     - name: "install libprotoc"
       apt: pkg=libprotoc-dev state=present
-# RUBY
+# Ruby
     - name: "install ruby"
       apt: pkg=ruby-dev state=present
     - command: gem install bundler
