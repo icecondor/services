@@ -1,0 +1,7 @@
+INV=$1 #inventory-api2
+PLAYBOOK=$2
+cat $INV
+echo Using inventory $INV to run playbook $PLAYBOOK
+ansible-playbook -i $INV --private-key=/home/donp/.ssh/keys/digitalocean-2018.ed25519 $PLAYBOOK
+date
+

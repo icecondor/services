@@ -24,6 +24,13 @@
         name: rsyslog
         state: restarted
 
+# sudo fallocate -l 1G /swapfile
+# sudo chmod 600 /swapfile
+# sudo mkswap /swapfile
+# echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+# sudo sysctl vm.vfs_cache_pressure=50
+# sudo sysctl vm.swappiness=10
+
     - name: "create devops unix user"
       user:
         name: devops

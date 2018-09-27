@@ -1,5 +1,5 @@
-resource "digitalocean_droplet" "icecondor-api-cc" {
-  name               = "icecondor-api-cc"
+resource "digitalocean_droplet" "icecondor-api-dd" {
+  name               = "icecondor-api-dd"
   size               = "s-1vcpu-1gb"
   image              = "ubuntu-18-04-x64"
   region             = "nyc3"
