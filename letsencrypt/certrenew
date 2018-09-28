@@ -1,0 +1,33 @@
+export RFC2136_NAMESERVER=localhost 
+export RFC2136_TSIG_KEY=tsig-key 
+export RFC2136_TSIG_SECRET="bind_secret==" 
+
+for a in .lego/certificates/*crt
+do
+DATE=`openssl x509 -enddate -noout -in $a`
+NAME=`basename $a .crt`
+echo ---
+echo renewing $NAME -- $DATE
+DOTS=`echo $NAME | tr -d -C . | wc -c`
+ENAME=$NAME
+if [ $DOTS -gt 1 ] ; then
+  ENAME=`echo $NAME| cut -d'.' -f2,3`
+fi
+
+UPATH=`ls -d ~/.lego/accounts/acme-v01.api.letsencrypt.org/*$ENAME`
+USER=`basename $UPATH`
+echo lego --dns rfc2136 --email $USER --domains $NAME --webroot ~/letsencrypt renew
+/usr/local/bin/lego --dns rfc2136 --email $USER --domains $NAME --webroot ~/letsencrypt renew 2>&1 | egrep -v "Could not find"\|"Trying to solve"
+echo exit $?
+
+DATE=`openssl x509 -enddate -noout -in $a`
+echo renewed $NAME -- $DATE
+
+done
+
+NGINXROW=`ps ax|grep 'nginx: master'|head -1`
+echo $NGINXROW
+NPID=`echo "$NGINXROW"| cut -c1-5`
+echo sudo kill -HUP $NPID
+/usr/local/bin/sudo kill -HUP $NPID
+

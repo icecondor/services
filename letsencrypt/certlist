@@ -1,0 +1,6 @@
+for a in .lego/certificates/*crt
+do
+DATE=`openssl x509 -subject -enddate -noout -in $a`
+NAME=`basename $a`
+echo $DATE $NAME
+done

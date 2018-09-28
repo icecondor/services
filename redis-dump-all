@@ -1,0 +1,9 @@
+#!/bin/bash 
+DUMPDIR=./redis-dump
+mkdir -p $DUMPDIR
+for each in $( redis-cli KEYS \* )
+do 
+echo $DUMPDIR/$each
+redis-cli --raw dump "$each" | head -c-1 > $DUMPDIR/$each 
+done 
+echo "cat myfile | redis-cli -x restore mynewkey 0"
