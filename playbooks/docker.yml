@@ -1,4 +1,0 @@
----
-- hosts: boxes
-  tasks:
-    - docker: command=ls image=
