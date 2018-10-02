@@ -8,9 +8,9 @@
   tasks:
     - name: "git pull icecondor/api master"
       git: repo=https://github.com/icecondor/api.git dest=/home/devops/api version=master
+    - name: "npm run build"
+      command: npm run build chdir=/home/devops/api
     - name: "git version note"
       shell: git log --pretty=format:'%aI-%h' -n 1 > version chdir=/home/devops/api
-    - name: "npm install (once)"
-      command: npm install chdir=/home/devops/api creates=/home/devops/api/node_modules
     - name: "pm2 restart api"
       command: pm2 restart api chdir=/home/devops/api
