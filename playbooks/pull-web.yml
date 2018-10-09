@@ -6,16 +6,10 @@
     ansible_ssh_user: root
 
   tasks:
-    - name: "git clone icecondor/web"
+    - name: "git pull icecondor/web master"
       git: repo=https://github.com/icecondor/web.git dest=/home/devops/web version=master
-    - name: "ruby bundle install"
-      command: bundle chdir=/home/devops/web creates=/home/devops/web/gems
-    - name: "refresh web/version file with git hash"
-      shell: git log --pretty=format:'%h' -n 1 > version chdir=/home/devops/web
-    - name: "npm install"
-      command: npm install chdir=/home/devops/web creates=/home/devops/web/node_modules
-    - name: "grunt web compile"
-      shell: PATH=$PATH:./bin ./node_modules/.bin/grunt
-      args:
-        chdir: /home/devops/web
+    - name: "npm run build"
+      command: npm run build chdir=/home/devops/web
+    - name: "git version note"
+      shell: git log --pretty=format:'%aI-%h' -n 1 > version chdir=/home/devops/web/build
 
