@@ -5,6 +5,6 @@
 /playbooks/*.retry
 
 # terraform keys
-digitalocean.tf
+.terraform.lock.*
 terraform.tfstate*
 .terraform/
