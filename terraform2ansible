@@ -1,7 +1,0 @@
-JQ='.modules[0].resources 
-    | map(select(.primary.attributes."tags.0") 
-    | { tag: .primary.attributes."tags.0", ip: .primary.attributes.ipv4_address, name:  .primary.attributes.name })  
-    | group_by(.tag) 
-    | map (["["+.[0].tag+"]", (map([.name, "ansible_ssh_host=" + .ip] | join(" ")) | join("\n"))]|join("\n") ) 
-    | join("\n\n")'
-jq -r "$JQ" $1

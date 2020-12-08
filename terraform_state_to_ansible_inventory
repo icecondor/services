@@ -1,0 +1,9 @@
+JQ='.resources 
+     | map(select(.type == "digitalocean_droplet")) 
+     | map(.instances) | map (.[0])
+     | map({ tag: .attributes.tags[0], ip: .attributes.ipv4_address, name:  .attributes.name })
+     | group_by(.tag) #todo: multi-group
+     | map ([ "["+.[0].tag+"]", map(.name + " ansible_ssh_host=" + .ip)] )
+     | map(.[0]+"\n" + (.[1] | join("\n")))
+     | join("\n\n")'
+jq -r "$JQ" $1
