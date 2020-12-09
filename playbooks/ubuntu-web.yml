@@ -1,5 +1,6 @@
 ---
 - hosts: web
+  become: yes
   vars:
     ansible_ssh_user: root
 
@@ -22,3 +23,10 @@
 # GIT
     - name: "install git"
       apt: pkg=git state=present
+# CODE
+    - name: "git clone icecondor/web"
+      git: repo=https://github.com/icecondor/web.git dest=/home/devops/web
+      become_user: devops
+    - name: "web$ npm install"
+      command: npm install chdir=/home/devops/web creates=/home/devops/web/node_modules
+      become_user: devops
