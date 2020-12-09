@@ -1,0 +1,10 @@
+server {
+  listen 80 default_server;
+  root /root/lego/webroot;
+  location /.well-known {
+    try_files $uri =404;
+  }
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
