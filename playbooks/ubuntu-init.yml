@@ -2,22 +2,16 @@
 - hosts: api sql web
   vars:
     ansible_ssh_user: root
-  gather_facts: no # no python yet
-  pre_tasks:
-    - name: 'install python2'
-      raw: apt-get -y install python-simplejson
-    - action: setup
-
 
   tasks:
     - name: "hostname {{inventory_hostname}}"
       hostname:
         name: "{{inventory_hostname}}"
 
-    - name: "/etc/hosts"
-      copy:
-        src: ../keys/etc-hosts
-        dest: /etc/hosts
+    # - name: "/etc/hosts"
+    #   copy:
+    #     src: ../keys/etc-hosts
+    #     dest: /etc/hosts
 
     - name: "syslog restart"
       service:
@@ -45,24 +39,23 @@
         src: ~devops/.ssh/id_ed25519.pub
         dest: ~devops/.ssh/authorized_keys
 
-    - name: "devops key retrieve to ./keys/ssh/{{inventory_hostname}}"
-      fetch:
-        src: ~devops/.ssh/id_ed25519
-        dest: "../keys/ssh/{{inventory_hostname}}" #relative to playbook dir
-        flat: yes
 # PREREQs
     - name: "install software-properties-common"
-      apt: pkg=software-properties-common state=present
-    - name: "install build-essential"
-      apt: pkg=build-essential state=present
+      apt: 
+        pkg:
+          - software-properties-common 
+          - build-essential 
 
 # REPOS
-    - name: "add nginx/stable repository"
-      apt_repository: repo=ppa:nginx/stable update_cache=no
+    - name: "add nginx key"
+      apt_key: url="https://nginx.org/keys/nginx_signing.key" state=present
+    - name: "add nginx repository {{ ansible_distribution_release }}"
+      apt_repository: repo="deb http://nginx.org/packages/mainline/ubuntu {{ ansible_distribution_release }} main" update_cache=no
     - name: "add nodesource key"
       apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
     - name: "add nodesource repository {{ ansible_distribution_release }}"
-      apt_repository: repo="deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main" update_cache=no
-# CACHE UPDATE
+      apt_repository: repo="deb https://deb.nodesource.com/node_14.x {{ ansible_distribution_release }} main" update_cache=no
+
+# APT CACHE UPDATE
     - name: "update apt cache"
       apt: update_cache=yes
