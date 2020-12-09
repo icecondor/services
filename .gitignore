@@ -8,3 +8,4 @@
 .terraform.lock.*
 terraform.tfstate*
 .terraform/
+terraform/DO_KEY
