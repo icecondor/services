@@ -7,7 +7,7 @@
 # POSTFIX
     - name: "install postfix"
       apt: pkg=postfix state=present
-    - copy: src=../keys/opendkim/main.cf dest=/etc/postfix/
+    - copy: src=../mail/main.cf dest=/etc/postfix/
     - name: "postfix restart"
       service:
         name: postfix
@@ -18,8 +18,8 @@
 # DKIM
     - name: "install opendkim"
       apt: pkg=opendkim state=present
-    - copy: src=../keys/opendkim/opendkim.conf dest=/etc/
-    - copy: src=../keys/opendkim/icecondor.dkim.key mode=0640 dest=/etc/postfix/
+    - copy: src=../mail/opendkim.conf dest=/etc/
+    - copy: src=../keys/icecondor.dkim.key mode=0640 dest=/etc/postfix/
     - name: "opendkim restart"
       service:
         name: opendkim

@@ -48,7 +48,7 @@
     - copy: src=../nginx/index.html dest=/usr/share/nginx/html/
 
 #LEGO
-    - name: "lego config"
+    - name: "copy lego/letsencrypt keys"
       copy:
       args:
         src: ../keys/lego/

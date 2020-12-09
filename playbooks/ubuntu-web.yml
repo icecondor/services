@@ -16,7 +16,7 @@
         creates: /usr/local/bin/bundle
 # NGINX
     - name: "nginx sites/web.icecondor.com"
-      copy: src=../keys/nginx/web.icecondor.com dest=/etc/nginx/sites/
+      copy: src=../nginx/sites/web.icecondor.com dest=/etc/nginx/sites/
     - name: "reloading nginx"
       systemd: name=nginx state=reloaded
 # GIT
