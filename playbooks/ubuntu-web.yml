@@ -30,3 +30,9 @@
     - name: "web$ npm install"
       command: npm install chdir=/home/devops/web creates=/home/devops/web/node_modules
       become_user: devops
+    - name: "bundle config set path gems"
+      command: bundle config set path gems chdir=/home/devops/web
+      become_user: devops
+    - name: "bundle install"
+      command: bundle install --binstubs chdir=/home/devops/web
+      become_user: devops
