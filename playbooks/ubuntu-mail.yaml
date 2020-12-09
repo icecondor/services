@@ -12,10 +12,11 @@
       service:
         name: postfix
         state: restarted
+# ALPINE
     - name: "install alpine"
       apt: pkg=alpine state=present
 
-# DKIM
+# OPENDKIM
     - name: "install opendkim"
       apt: pkg=opendkim state=present
     - copy: src=../mail/opendkim.conf dest=/etc/
