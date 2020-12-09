@@ -1,7 +1,7 @@
 # HTTPS server
 server {
         #listen [::]:443;
-        listen 443;
+        listen 443 ssl;
 	server_name icecondor.com ipv6.icecondor.com www.icecondor.com;
         #rewrite_log on;
         #error_log /etc/wtf info;
@@ -9,7 +9,6 @@ server {
 	root /home/devops/web/build;
 	index index.html index.htm;
 
-	ssl on;
 	ssl_session_timeout 5m;
         ssl_certificate /root/lego/certificates/icecondor.com.crt;
         ssl_certificate_key /root/lego/certificates/icecondor.com.key;

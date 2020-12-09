@@ -1,13 +1,12 @@
 # HTTPS server
 server {
-	listen 443;
+	listen 443 ssl;
  
 	server_name api.icecondor.com;
 
         root /home/devops/web/build;
 	index index.html index.htm;
 
-	ssl on;
 	ssl_session_timeout 5m;
         ssl_certificate /root/lego/certificates/api.icecondor.com.crt;
         ssl_certificate_key /root/lego/certificates/api.icecondor.com.key;
