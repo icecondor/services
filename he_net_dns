@@ -1,0 +1,1 @@
+curl -4 https://$1:$2@dyn.dns.he.net/nic/update -d "myip=$3"
