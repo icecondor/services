@@ -9,8 +9,8 @@ server {
   	index index.html index.htm;
 
   	ssl_session_timeout 5m;
-    ssl_certificate /root/lego/certificates/icecondor.com.crt;
-    ssl_certificate_key /root/lego/certificates/icecondor.com.key;
+    ssl_certificate /root/lego/certificates/{{inventory_hostname}}.crt;
+    ssl_certificate_key /root/lego/certificates/{{inventory_hostname}}.key;
 
   	location / {
         rewrite ^/$ /dashboard.html;
