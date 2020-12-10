@@ -12,6 +12,10 @@
     #   copy:
     #     src: ../keys/etc-hosts
     #     dest: /etc/hosts
+    - name: "/etc/sudoers"
+      copy:
+        src: ../keys/etc/sudoers
+        dest: /etc/sudoers
 
     - name: "syslog restart"
       service:
@@ -38,6 +42,9 @@
         owner: devops
         src: ~devops/.ssh/id_ed25519.pub
         dest: ~devops/.ssh/authorized_keys
+    - fetch:
+        src: ~devops/.ssh/id_ed25519.pub
+        dest: ../keys/generated_ssh
 
     - name: wait for cloud-init to finish
       command: cloud-init status --wait

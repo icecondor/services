@@ -112,6 +112,11 @@
       args:
         chdir: /home/devops/api
       become_user: devops
+    - name: "pm2 start rest.js"
+      command: pm2 start -f ./build/api/rest.js
+      args:
+        chdir: /home/devops/api
+      become_user: devops
     - name: "pm2 start api.js"
       command: pm2 start -f ./build/api/api.js
       args:
